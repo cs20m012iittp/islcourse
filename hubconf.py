@@ -1,6 +1,16 @@
 
 import torch
 from torch import nn
+import numpy as np
+np.random.seed(42)
+from torch.utils.data import DataLoader
+from torch.utils.data import Subset
+from torchvision.transforms import ToTensor
+from torchvision.datasets import KMNIST
+import argparse
+import imutils
+import torch
+import cv2
 
 def kali():
   print ('kali')
@@ -216,8 +226,7 @@ def test_model(model1=None, test_data_loader=None):
   accuracy_val, precision_val, recall_val, f1score_val = 0, 0, 0, 0
 
 
-  %matplotlib inline
-# loop over our epochs
+ 
 for e in range(0, EPOCHS):
   # set the model in training mode
   model.train()
@@ -318,13 +327,13 @@ for e in range(0, EPOCHS):
 # load the KMNIST dataset and randomly grab 10 data points
   print("[INFO] loading the KMNIST test dataset...")
   testData = KMNIST(root="data", train=False, download=True,transform=ToTensor())
-idxs = np.random.choice(range(0, len(testData)), size=(10,))
-testData = Subset(testData, idxs)
+  idxs = np.random.choice(range(0, len(testData)), size=(10,))
+  testData = Subset(testData, idxs)
 # initialize the test data loader
-testDataLoader = DataLoader(testData, batch_size=1)
+  testDataLoader = DataLoader(testData, batch_size=1)
 # load the model and set it to evaluation mode
 #model = torch.load(args["model"]).to(device)
-model.eval()
+  model.eval()
 #plt.savefig(args["plot"])
 # serialize the model to disk
 #torch.save(model, args["model"])
