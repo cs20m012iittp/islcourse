@@ -83,6 +83,25 @@ def get_model(train_data_loader=None, n_epochs=5):
   trainSteps = len(trainDataLoader.dataset) // BATCH_SIZE
   valSteps = len(valDataLoader.dataset) // BATCH_SIZE
 
+
+print("[INFO] initializing the LeNet model...")
+model = LeNet(
+	numChannels=1,
+	classes=len(trainData.dataset.classes)).to(device)
+# initialize our optimizer and loss function
+opt = Adam(model.parameters(), lr=INIT_LR)
+lossFn = nn.NLLLoss()
+# initialize a dictionary to store training history
+H = {
+	"train_loss": [],
+	"train_acc": [],
+	"val_loss": [],
+	"val_acc": []
+}
+# measure how long training is going to take
+print("[INFO] training the network...")
+startTime = time.time()
+
   # write your code here as per instructions
   # ... your code ...
   # ... your code ...
