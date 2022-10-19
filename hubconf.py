@@ -324,7 +324,7 @@ for e in range(0, EPOCHS):
   plt.legend(loc="lower left")
   # set the device we will be using to test the model
   device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-# load the KMNIST dataset and randomly grab 10 data points
+
   print("[INFO] loading the KMNIST test dataset...")
   testData = KMNIST(root="data", train=False, download=True,transform=ToTensor())
   idxs = np.random.choice(range(0, len(testData)), size=(10,))
