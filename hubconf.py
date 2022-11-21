@@ -32,14 +32,6 @@ def get_data_blobs(n_points=100):
 X , y = get_data_blobs()
 
 
-def get_data_mnist():
-  pass
-  # write your code here
-  # Refer to sklearn data sets
-  X,y = None
-  # write your code ...
-  return X,y
-
 def build_kmeans(X,y ,k=10):
   pass
   km = KMeans(n_clusters=k)
@@ -83,19 +75,53 @@ print("c score is  :",c)
 
 ###### PART 2 ######
 
+
+from sklearn.datasets import load_digits 
+def get_data_mnist():
+  digits = load_digits()
+  print(type(digits))
+  print(digits.keys())
+  print(digits.data.shape)
+  X , y = digits.data, digits.target
+  print(X.shape, y.shape)
+  return X, y
+
+
+
+from sklearn.ensemble import RandomForestClassifier
+import seaborn as sns
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSearchCV, cross_val_score
+
+
+from sklearn import svm, metrics
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+
+
+x , y = get_data_mnist()
+
 def build_lr_model(X=None, y=None):
   pass
-  lr_model = None
+  lr_model = LogisticRegression(random_state=0).fit(X, y)
   # write your code...
   # Build logistic regression, refer to sklearn
   return lr_model
 
-def build_rf_model(X=None, y=None):
+lr_model = build_lr_model(x,y)
+print(lr_model)
+
+def build_rf_model(X, y):
   pass
-  rf_model = None
+  rf_model = RandomForestClassifier(n_estimators=100)
+  rf_model.fit(X,y)
+ 
   # write your code...
   # Build Random Forest classifier, refer to sklearn
   return rf_model
+  # write your code...
+  # Build Random Forest classifier, refer to sklearn
 
 def get_metrics(model=None,X=None,y=None):
   pass
