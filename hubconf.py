@@ -17,23 +17,29 @@ from sklearn.metrics import v_measure_score
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
+import numpy as np
+%matplotlib inline
+from sklearn.datasets import make_blobs, make_circles
 
 def get_data_blobs(n_points=100):
   pass
   # write your code here
   # Refer to sklearn data sets
-  X, y = None
-  # write your code ...
+  X, y =  make_blobs(n_samples=n_points,centers = 5)
+  print(X.shape, Y.shape)
   return X,y
+
+X_blob , y_blob = get_data_blobs()
 
 def get_data_circles(n_points=100):
   pass
   # write your code here
   # Refer to sklearn data sets
-  X, y = None
+  X, y =  make_circles(n_samples=n_points)
+  print(X.shape, y.shape)
   # write your code ...
   return X,y
-
+x_cir , y_cir = get_data_circles()
 def get_data_mnist():
   pass
   # write your code here
