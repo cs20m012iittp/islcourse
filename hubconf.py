@@ -9,6 +9,14 @@ import torch.optim as optim
 # Avoid pip install requirement on the evaluation program side, if you use above packages and sub-packages of them, then that is fine!
 
 ###### PART 1 ######
+from sklearn.decomposition import PCA
+from sklearn.manifold import MDS
+from sklearn.manifold import TSNE
+from sklearn.cluster import KMeans
+from sklearn.metrics import v_measure_score
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
 
 def get_data_blobs(n_points=100):
   pass
