@@ -97,7 +97,7 @@ from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSe
 
 
 from sklearn import svm, metrics
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, recall_score, precision_score, f1_score, roc_auc_score
 
 
 x , y = get_data_mnist()
@@ -122,18 +122,34 @@ def build_rf_model(X, y):
   return rf_model
   # write your code...
   # Build Random Forest classifier, refer to sklearn
+  
+rf_model = build_rf_model(x,y)
+print(rf_model)
 
-def get_metrics(model=None,X=None,y=None):
+def get_metrics(model,X,y):
   pass
+  ypred = model.predict(X)
   # Obtain accuracy, precision, recall, f1score, auc score - refer to sklearn metrics
-  acc, prec, rec, f1, auc = 0,0,0,0,0
+  
+  print("Classification_Report : ")
+  print(classification_report(y,ypred))
+  print("Confusion_Matrix : ")
+  print(confusion_matrix(y, ypred))
+  print("f1 score is : ",f1_score(y, ypred, average=None))
+  print("Precision_score :",precision_score(y, ypred, average=None))
+  print("recall_score : ",recall_score(y, ypred, average=None))
+  print("accuracy : ", accuracy_score(y, ypred))
   # write your code here...
-  return acc, prec, rec, f1, auc
+  
+  
+x, y = get_data_mnist()
+get_metrics(rf_model, x ,y)
 
 def get_paramgrid_lr():
   # you need to return parameter grid dictionary for use in grid search cv
   # penalty: l1 or l2
-  lr_param_grid = None
+  lr_param_grid = {"C":np.logspace(-3,3,7), "penalty":["l1","l2"]}
+
   # refer to sklearn documentation on grid search and logistic regression
   # write your code here...
   return lr_param_grid
@@ -143,7 +159,12 @@ def get_paramgrid_rf():
   # n_estimators: 1, 10, 100
   # criterion: gini, entropy
   # maximum depth: 1, 10, None  
-  rf_param_grid = None
+  rf_param_grid =  {
+    'n_estimators' : [50, 100],
+    'max_features' : ['auto', 'sqrt','log2'],
+    'max_depth' : [0, 1, 10],
+    'criterion' : ['gini', 'entropy']}
+
   # refer to sklearn documentation on grid search and random forest classifier
   # write your code here...
   return rf_param_grid
@@ -156,19 +177,41 @@ def perform_gridsearch_cv_multimetric(model=None, param_grid=None, cv=5, X=None,
   
   # metrics = [] the evaluation program can change what metrics to choose
   
-  grid_search_cv = None
+  grid_search_cv = GridSearchCV(estimator = model, param_grid = param_grid, cv = cv)
   # create a grid search cv object
   # fit the object on X and y input above
+  new_model = grid_search_cv.fit(X,y)
   # write your code here...
-  
+  ypred=new_model.predict(X)
   # metric of choice will be asked here, refer to the-scoring-parameter-defining-model-evaluation-rules of sklearn documentation
+  acc = accuracy_score(y, ypred)
+  
+  prec = precision_score(y, ypred, average=None)
+  rec = recall_score(y, ypred, average=None)
+  f1 = f1_score(y, ypred, average=None)
+  roc = roc_auc_score(y, new_model.predict_proba(X), multi_class='ovr')
   
   # refer to cv_results_ dictonary
   # return top 1 score for each of the metrics given, in the order given in metrics=... list
-  
-  top1_scores = []
+  a = acc.max()
+  b = prec.max()
+  c =  f1.max()
+  d =rec.max()
+  e = roc.max()
+  top1_scores = [a,b,c,d,e]
   
   return top1_scores
+
+
+
+param_grid=get_paramgrid_lr()
+print(param_grid)
+param_rf = get_paramgrid_rf()
+print(param_rf)
+
+perform_grid = perform_gridsearch_cv_multimetric(rf_model,param_rf,5,x,y)
+
+print(perform_grid)
 
 ###### PART 3 ######
 
