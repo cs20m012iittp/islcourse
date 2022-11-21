@@ -26,10 +26,34 @@ def get_data_blobs(n_points=100):
   # write your code here
   # Refer to sklearn data sets
   X, y =  make_blobs(n_samples=n_points,centers = 5)
-  print(X.shape, Y.shape)
+  print(X.shape, y.shape)
   return X,y
 
-X_blob , y_blob = get_data_blobs()
+X , y = get_data_blobs()
+
+
+def get_data_mnist():
+  pass
+  # write your code here
+  # Refer to sklearn data sets
+  X,y = None
+  # write your code ...
+  return X,y
+
+def build_kmeans(X,y ,k=10):
+  pass
+  km = KMeans(n_clusters=k)
+  km.fit(X,y)
+  return km
+
+def assign_kmeans(km, X):
+  pass
+  ypred =  km.predict(X)
+  return ypred
+
+km = build_kmeans(X,y)
+y_pred = assign_kmeans(km, X)
+print(y_pred)
 
 def get_data_circles(n_points=100):
   pass
@@ -39,36 +63,23 @@ def get_data_circles(n_points=100):
   print(X.shape, y.shape)
   # write your code ...
   return X,y
-x_cir , y_cir = get_data_circles()
-def get_data_mnist():
-  pass
-  # write your code here
-  # Refer to sklearn data sets
-  X,y = None
-  # write your code ...
-  return X,y
+X , y= get_data_circles()
 
-def build_kmeans(X=None,k=10):
-  pass
-  # k is a variable, calling function can give a different number
-  # Refer to sklearn KMeans method
-  km = None # this is the KMeans object
-  # write your code ...
-  return km
+km2 = build_kmeans(X,y)
+y_pred2 = assign_kmeans(km2, X)
 
-def assign_kmeans(km=None,X=None):
-  pass
-  # For each of the points in X, assign one of the means
-  # refer to predict() function of the KMeans in sklearn
-  # write your code ...
-  ypred = None
-  return ypred
+from sklearn.metrics.cluster import v_measure_score
+print("v score is  :",v_measure_score(y_pred,y_pred2))
 
-def compare_clusterings(ypred_1=None,ypred_2=None):
-  pass
-  # refer to sklearn documentation for homogeneity, completeness and vscore
-  h,c,v = 0,0,0 # you need to write your code to find proper values
-  return h,c,v
+from sklearn.metrics.cluster import homogeneity_score
+h = homogeneity_score(y_pred,y_pred2)
+print("h score is  :",h)
+
+from sklearn.metrics import completeness_score
+c = completeness_score(y_pred,y_pred2)
+print("c score is  :",c)
+
+
 
 ###### PART 2 ######
 
